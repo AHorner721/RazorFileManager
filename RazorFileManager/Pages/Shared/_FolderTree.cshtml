@@ -1,0 +1,24 @@
+﻿@model RazorFileManager.Data.Models.Folder
+@{
+    var Folder = Model;
+}
+
+<ul style="list-style-type: none;" data-bs-toggle="collapse" href="#@Folder.Name" role="button" aria-expanded="true">
+    <li id="@Folder.FolderId">
+        <img src="images/folder-fill.svg" /> @Folder.Name
+
+        @if (Folder.SubFolders != null && Folder.SubFolders?.Any() == true)
+        {
+            <ul style="list-style-type: none; padding-left: 2px;" id="@Folder.Name">
+                @foreach (var subFolder in Folder.SubFolders)
+                {
+                    <li>
+                         @await Html.PartialAsync("_FolderTree", subFolder)
+                    </li>
+                }
+            </ul>
+        }
+    </li>
+</ul>
+
+@*Todo rename folder, move folder, delete folder *@

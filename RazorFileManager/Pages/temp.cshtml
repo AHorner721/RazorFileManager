@@ -1,0 +1,28 @@
+﻿@* <div>
+    @if (Model.RootFolder != null)
+    {
+        <ul style="list-style-type: none;" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample">
+            <li>
+                <img src="images/folder-fill.svg" /> @Model.RootFolder.Name
+                @if (Model.RootFolder.SubFolders != null && Model.RootFolder.SubFolders.Count > 0)
+                {
+                    <ul style="list-style-type: none; padding-left: 12px;" id="collapseExample">
+                        @foreach(var item in Model.RootFolder.SubFolders)
+                        {
+                            <li><img src="images/folder-fill.svg" /> @item.Name</li>
+                        }
+                    </ul>
+                }
+                @if (Model.RootFolder.Files != null && Model.RootFolder.Files.Count > 0)
+                {
+                    <ul style="list-style-type: none; padding-left: 12px;" id="collapseExample">
+                        @foreach (var item in Model.RootFolder.Files)
+                        {
+                            <li><img src="images/file-text.svg" /> @item.Name</li>
+                        }
+                    </ul>
+                }
+            </li>
+        </ul>
+    }
+</div> *@

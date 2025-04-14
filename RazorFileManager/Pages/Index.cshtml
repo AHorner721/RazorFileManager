@@ -1,0 +1,82 @@
+﻿@page
+@model IndexModel
+@{
+}
+
+<div class="mb-3 d-inline-flex flex-wrap">
+    <div class="card m-3 p-3 border-0 shadow-sm" style="background-color: #fafafa;">
+        <h5>Create Folder</h5>
+        <form method="post" asp-page-handler="CreateFolder">
+            <input type="hidden" asp-for="NewFolder.FolderId" />
+            <div>
+                <label asp-for="ParentFolderId" class="form-label">Select Parent Folder:</label>
+                <select asp-for="ParentFolderId" asp-items="Model.Folders" class="form-select"></select>
+                <label asp-for="NewFolder.Name" class="form-label">Folder Name:</label>
+                <div class="d-flex">
+                    <input asp-for="NewFolder.Name" class="form-control" style="border-right: none; border-top-right-radius: 0px; border-bottom-right-radius: 0px; width: 200px;" />
+                    <button type="submit" class="btn btn-primary" style="border-left: none; border-top-left-radius: 0px; border-bottom-left-radius: 0px;">Create</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="mx-3 card p-3 bg-opacity-25 border-0 shadow-sm" style="background-color: #fafafa;">
+        <h5>Rename Folder</h5>
+        <form method="post" asp-page-handler="RenameFolder">
+            <div>
+                <label asp-for="SelectedFolderId" class="form-label">Select Folder:</label>
+                <select asp-for="SelectedFolderId" asp-items="Model.Folders" class="form-select"></select>
+                <label asp-for="NewFolder.Name" class="form-label">Folder Name:</label>
+                <div class="d-flex">
+                    <input asp-for="NewFolder.Name" class="form-control" style="border-right: none; border-top-right-radius: 0px; border-bottom-right-radius: 0px; width: 200px;" />
+                    <button type="submit" class="btn btn-primary" style="border-left: none; border-top-left-radius: 0px; border-bottom-left-radius: 0px;">Rename</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="m-3 card p-3 bg-opacity-25 border-0 shadow-sm" style="background-color: #fafafa;">
+        <h5>Move Folder</h5>
+        <form method="post" asp-page-handler="MoveFolder">
+            <div>
+                <label asp-for="SelectedFolderId" class="form-label">Select Folder:</label>
+                <select asp-for="SelectedFolderId" asp-items="Model.Folders" class="form-select"></select>
+                <label asp-for="ParentFolderId" class="form-label">Select Parent Folder:</label>
+                <select asp-for="ParentFolderId" asp-items="Model.Folders" class="form-select"></select>
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-primary mt-2">Move</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="m-3 card p-3 bg-opacity-25 border-0 shadow-sm" style="background-color: #fafafa;">
+        <h5>Remove Folder</h5>
+        <form method="post" asp-page-handler="RemoveFolder">
+            <div>
+                <label asp-for="SelectedFolderId" class="form-label">Select Folder:</label>
+                <select asp-for="SelectedFolderId" asp-items="Model.Folders" class="form-select"></select>
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-danger mt-2">Remove</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card m-3 p-3 border-0 shadow-sm" style="background-color: #fafafa;">
+        <h5>Upload File</h5>
+        <form method="post" asp-page-handler="UploadFile" class="w-50">
+            <input type="hidden" asp-for="NewFile.Id" />
+            <label asp-for="NewFile.Name" class="form-label">File Name:</label>
+            <div class="d-flex">
+                <input asp-for="NewFile.Name" class="form-control" style="border-right: none; border-top-right-radius: 0px; border-bottom-right-radius: 0px; width: 200px;" />
+                <button type="submit" class="btn btn-primary" style="border-left: none; border-top-left-radius: 0px; border-bottom-left-radius: 0px;">Upload</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.RootFolder != null)
+{
+    @await Html.PartialAsync("_FolderTree", Model.RootFolder)
+}
+else
+{
+    <p>No folder structure found.</p>
+}
