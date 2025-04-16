@@ -28,6 +28,14 @@ namespace RazorFileManager.Services
             }
         }
 
+        public async Task<List<Folder>> GetRootFolders()
+        {
+            using (var context = _dbContext.CreateDbContext())
+            {
+                return await context.Folders.Include(f => f.SubFolders).Include(f => f.Files).Where(f => f.ParentId == null).ToListAsync();
+            }
+        }
+
         public async Task<List<Folder>> GetFolders()
         {
             using (var context = _dbContext.CreateDbContext())

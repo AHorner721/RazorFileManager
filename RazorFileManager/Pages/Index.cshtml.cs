@@ -21,6 +21,7 @@ namespace RazorFileManager.Pages
 
         public Folder RootFolder { get; set; }
         public List<Folder> AllFolders { get; set; }
+        public List<Folder> RootFolders { get; set; }
         [BindProperty]
         public Folder NewFolder { get; set; }
 
@@ -30,7 +31,7 @@ namespace RazorFileManager.Pages
         [BindProperty]
         public int SelectedFolderId { get; set; }
         [BindProperty]
-        public int ParentFolderId { get; set; }
+        public int? ParentFolderId { get; set; }
 
         public async Task OnGet()
         {
@@ -47,7 +48,7 @@ namespace RazorFileManager.Pages
             {
                 RootFolder = root;
                 var folder = new Folder { Name = NewFolder.Name, UserId = 1, CreatedDate = DateTime.UtcNow, LastModifiedDate = DateTime.UtcNow };
-                folder.ParentId = SelectedFolderId;
+                folder.ParentId = ParentFolderId;
                 await _fileManagerService.AddFolder(folder);
 
                 await InitRootFolder();
@@ -126,11 +127,16 @@ namespace RazorFileManager.Pages
         private async Task InitRootFolder()
         {
             //var root = await _fileManagerService.GetRootFolderContent();
-            var root = await _fileManagerService.GetAllContent();
-            if (root != null)
+            //var root = await _fileManagerService.GetAllContent();
+            //if (root != null)
+            //{
+            //    AllFolders = root;
+            //    RootFolder = root.First();
+            //}
+            var rootFolders = await _fileManagerService.GetRootFolders();
+            if (rootFolders != null)
             {
-                AllFolders = root;
-                RootFolder = root.First();
+                RootFolders = rootFolders;
             }
         }
 

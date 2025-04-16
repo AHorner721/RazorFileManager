@@ -10,7 +10,9 @@
             <input type="hidden" asp-for="NewFolder.FolderId" />
             <div>
                 <label asp-for="ParentFolderId" class="form-label">Select Parent Folder:</label>
-                <select asp-for="ParentFolderId" asp-items="Model.Folders" class="form-select"></select>
+                <select asp-for="ParentFolderId" asp-items="Model.Folders" class="form-select">
+                    <option value="">-- No Parent Folder --</option>
+                </select>
                 <label asp-for="NewFolder.Name" class="form-label">Folder Name:</label>
                 <div class="d-flex">
                     <input asp-for="NewFolder.Name" class="form-control" style="border-right: none; border-top-right-radius: 0px; border-bottom-right-radius: 0px; width: 200px;" />
@@ -72,11 +74,22 @@
     </div>
 </div>
 
-@if (Model.RootFolder != null)
+@* @if (Model.RootFolder != null)
 {
     @await Html.PartialAsync("_FolderTree", Model.RootFolder)
-}
-else
-{
-    <p>No folder structure found.</p>
-}
+} *@
+
+<div style="max-width: 300px;">
+    @if (Model.RootFolders != null && Model.RootFolders.Count > 0)
+    {
+        foreach (var rootFolder in Model.RootFolders)
+        {
+            @await Html.PartialAsync("_FolderTree", rootFolder)
+            <hr />
+        }
+    }
+    else
+    {
+        <p>No folder structure found.</p>
+    }
+</div>
